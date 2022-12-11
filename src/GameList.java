@@ -20,13 +20,31 @@ public class GameList {
         return true;
     }
 
-    public boolean removeGame(){
+    public boolean updateGame(Game oldGame, Game newGame){
+        int foundPosition =  findGame(oldGame);
+        if (foundPosition < 0){
+            System.out.println("Game is nt listed");
+        } else {
+            if (findGame(newGame.getName()) != -1){
+                System.out.println("The game " + newGame.getName() +
+                        " is already listed. Update not successful.");
+            }
+        }
+        this.gameArrayList.set(foundPosition, newGame);
+        System.out.println(oldGame.getName() + ", was replaced with " + newGame.getName());
+        return true;
 
     }
 
-    public boolean updateGame(){
-
-
+    public boolean removeGame(Game game){
+        int foundPosition = findGame(game);
+        if (foundPosition < 0) {
+            System.out.println(game.getName() + ", was not found.");
+            return false;
+        }
+        this.gameArrayList.remove(foundPosition);
+        System.out.println(game.getName() + " has been removed.");
+        return true;
     }
 
     private int findGame(Game game){
@@ -44,16 +62,28 @@ public class GameList {
         return -1;
     }
 
-    public String queryGame(){
-
+    public String queryGame(Game game){
+        if (findGame(game) >= 0) {
+            return game.getName();
+        }
+        return null;
     }
 
-    public Game queryGame(){
-
+    public Game queryGame(String name){
+        int position = findGame(name);
+        if (position >= 0){
+            return this.gameArrayList.get(position);
+        }
+        return  null;
     }
 
-
-
-
-
+    public void printGameList(){
+        System.out.println("You have " + gameArrayList.size() + " game/s on the list");
+        for (int i = 0; i < this.gameArrayList.size(); i++){
+            System.out.println((i + 1) + ". " +
+                    this.gameArrayList.get(i).getName() +  " -> " +
+                    this.gameArrayList.get(i).getGenre() + " -> " +
+                    this.gameArrayList.get(i).getPov());
+        }
+    }
 }
