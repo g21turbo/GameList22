@@ -23,11 +23,13 @@ public class GameList {
     public boolean updateGame(Game oldGame, Game newGame){
         int foundPosition =  findGame(oldGame);
         if (foundPosition < 0){
-            System.out.println("Game is nt listed");
+            System.out.println(oldGame.getName() + ", was not found.");
+            return false;
         } else {
             if (findGame(newGame.getName()) != -1){
                 System.out.println("The game " + newGame.getName() +
                         " is already listed. Update not successful.");
+                return false;
             }
         }
         this.gameArrayList.set(foundPosition, newGame);

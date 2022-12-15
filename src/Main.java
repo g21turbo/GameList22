@@ -62,14 +62,52 @@ public class Main {
     }
 
     public static void updateGame(){
-
+        System.out.println("Enter a game to update: ");
+        String oldGame = scanner.nextLine();
+        Game existingGameRecord = gameList.queryGame(oldGame);
+        if (existingGameRecord == null) {
+            System.out.println("Game was not found.");
+            return;
+        }
+        System.out.println("Enter new game name: ");
+        String newName = scanner.nextLine();
+        System.out.println("Enter the genre of the game: ");
+        String newGenre = scanner.nextLine();
+        System.out.println("Enter the POV of the new game: ");
+        String newPov = scanner.nextLine();
+        Game newGame = Game.createNewGame(newName, newGenre, newPov);
+        if (gameList.updateGame(existingGameRecord, newGame)){
+            System.out.println("Successfully updated.");
+        } else {
+            System.out.println("Error updating game.");
+        }
     }
 
     public static void removeGame(){
-
+        System.out.println("Enter a game to remove: ");
+        String gameName = scanner.nextLine();
+        Game existingGameRecord = gameList.queryGame(gameName);
+        if (existingGameRecord == null){
+            System.out.println("Game mot found.");
+            return;
+        }
+        if (gameList.removeGame(existingGameRecord)){
+            System.out.println("Successfully deleted");
+        } else {
+            System.out.println("Error deleting game");
+        }
     }
 
     public static void queryGame(){
+        System.out.println("Enter game to search: ");
+        String game = scanner.nextLine();
+        Game existingGame = gameList.queryGame(game);
+        if (gameList.queryGame(game) == null){
+            System.out.println("Game not listed.");
+            return;
+        }
+        System.out.println("Game name: " + existingGame.getName() + "Genre: " +
+                existingGame.getGenre() + "POV: " + existingGame.getPov());
 
     }
 
@@ -78,7 +116,7 @@ public class Main {
                 "Press: \n" +
                 "\t 0 - To quit.\n" +
                 "\t 1 - To print the game list.\n" +
-                "\t 2 - To ad a new game.\n" +
+                "\t 2 - To add a new game.\n" +
                 "\t 3 - To update a listed game.\n" +
                 "\t 4 - To remove a game from the list.\n" +
                 "\t 5 - To see if a game is listed.\n" +
